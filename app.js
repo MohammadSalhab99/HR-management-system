@@ -1,9 +1,9 @@
-function Employee(EmployeeId, fullName, department, level) {
+function Employee(EmployeeId, fullName, department, level, imageUrl) {
     this.EmployeeId = EmployeeId;
     this.fullName = fullName;
     this.department = department;
     this.level = level;
-    this.imageURL = `./images/${this.fullName}.PNG`;
+    this.imageURL = imageUrl;
 
 
 }
@@ -36,6 +36,18 @@ const Employee5 = new Employee(1004, "Omar Zaid", "Development", "Senior");
 const Employee6 = new Employee(1005, "Rana Saleh", "Development", "Junior");
 const Employee7 = new Employee(1006, "Hadi Ahamad", "Finance", "Mid-senior");
 
+Employee.prototype.render2 = function() {
+    let divEl = document.getElementById('div');
+    let imgEl = document.createElement('img')
+    divEl.appendChild(imgEl);
+    imgEl.setAttribute('src', this.imageURL);
+    imgEl.setAttribute('alt', "image");
+    let pEl = document.createElement('p');
+    divEl.appendChild(pEl);
+    pEl.textContent = `Name:${this.fullName}-ID:${this.EmployeeId} Department:${this.department}-level:${this.level} salary: ${this.salary}`;
+
+
+}
 
 
 
@@ -47,11 +59,30 @@ Employee5.CalculateSalary();
 Employee6.CalculateSalary();
 Employee7.CalculateSalary();
 
-render1();
-Employee1.render();
-Employee2.render();
-Employee3.render();
-Employee4.render();
-Employee5.render();
-Employee6.render();
-Employee7.render();
+// render1();
+// Employee1.render();
+// Employee2.render();
+// Employee3.render();
+// Employee4.render();
+// Employee5.render();
+// Employee6.render();
+// Employee7.render();
+
+let EmployeeForm = document.getElementById('EmployeeForm');
+
+let addNewEmployee = function(event) {
+    event.preventDefault();
+
+
+    let name = event.target.name.value;
+    let imgUrl = event.target.imgUrl.value;
+    let department = event.target.Department.value;
+    let level = event.target.Level.value;
+    let employeeId = Math.floor((Math.random() * (1025 - 1007)) + 1007)
+    console.log(name, imgUrl, department, level, employeeId);
+    const newEmployee = new Employee(employeeId, name, department, level, imgUrl)
+    newEmployee.CalculateSalary();
+    newEmployee.render2();
+
+}
+EmployeeForm.addEventListener('submit', addNewEmployee);
